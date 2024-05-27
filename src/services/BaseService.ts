@@ -1,9 +1,11 @@
 import { DELETE, GET, POST, PUT } from "./Http";
 import { ref, child, get,set ,update ,push,remove} from "firebase/database";
-import {data} from "@/lib/firebase";
+import {app, data} from "@/lib/firebase";
 import {ApiResponse} from "@/services/module/Respons";
 import axios, {Axios} from "axios";
 import {Store} from "@/services/module/Store";
+import {Input} from "@/services/module/Input";
+import {Output} from "@/services/module/Output";
 export class BaseService<T> {
   protected static instance?: BaseService<any>;
   public baseUrl = "/";
@@ -70,6 +72,39 @@ export class BaseService<T> {
     return await this.errorHandler(res);
   }
 
+  public async limitToLast(limit:number):Promise<any> {
+    const dataRef =await app.database().ref(`${this.baseUrl}`).limitToLast(limit);
+
+    const snapshot = await dataRef.once('value');
+
+    if (snapshot.exists() ) {
+      const rawData: Input[] | Output[] | Store[] = snapshot.val();
+
+      const cleanedData = Object.values(rawData).filter((item): item is T => item !== null);
+
+      return this.errorHandler(cleanedData);
+    }else {
+      return {
+        massage:'no data'
+      }
+    }
+  }
+  public async limitToFirst(limit: number): Promise<any> {
+    const dataRef = await app.database().ref(`${this.baseUrl}`).limitToFirst(limit);
+
+    const snapshot = await dataRef.once('value');
+
+    if (snapshot.exists()) {
+      const rawData: Input[] | Output[] | Store[] = snapshot.val();
+      const cleanedData = Object.values(rawData).filter((item): item is T => item !== null);
+
+      return this.errorHandler(cleanedData);
+    } else {
+      return {
+        message: 'no data'
+      };
+    }
+  }
   // ---------------------------------------
 
   public async errorHandler(res: any): Promise<ApiResponse<T>>{

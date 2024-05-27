@@ -1,41 +1,20 @@
-'use client'
-import {StoreService} from "@/services/seviceDirect/StoreService";
-import {useQuery} from "@tanstack/react-query";
-import axios from "axios";
-import {createClient} from '@supabase/supabase-js'
-import {supabase} from "@/services/subabase/SupabaseServise";
 import {InputService} from "@/services/seviceDirect/InputService";
-import {Store} from "@/services/module/Store";
+import {OutputService} from "@/services/seviceDirect/OutputService";
+import ClientPageHome from "@/app/components/home/ClientPageHome";
 
 
-const Home = () => {
+const Home =async () => {
 
-    const cleanedData= (data:Store[]|undefined)=>{
-       return  data?.filter(item => item !== null) as Exclude<Store, null>[]
-    };
-
-    const Strore = {
-
-            id: 5,
-            qtn: 55,
-            name: "gggggggggg"
-
-    }
-
-    const {data, error} = useQuery({
-        queryKey: ['newData'],
-        queryFn: async () => {
-            return await StoreService.make<StoreService>().ReadDataBase()
-        }
-
-    })
-
-
-
-        console.log(data)
+    const inputLimitData = await InputService.make<InputService>().limitToLast(5)
+    const outLimitData = await OutputService.make<OutputService>().limitToLast(5)
 
     return (
-        <></>
+        <div className='min-w-screen min-h-screen' style={{
+            background:
+                "linear-gradient(to bottom, rgba(249, 250, 251, 0.9), rgba(249, 250, 251, 0.9)), url(https://dc621.4shared.com/img/GqP7JQWBjq/s24/18e1e7686a0/overlay_4?async&rand=0.9085352286261172)",
+        }}>
+          <ClientPageHome inputLimitData={inputLimitData} outLimitData={outLimitData}/>
+        </div>
     )
 }
 
