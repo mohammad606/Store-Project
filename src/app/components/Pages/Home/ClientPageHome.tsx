@@ -1,10 +1,11 @@
 'use client'
 import {Input} from "@/services/module/Input";
 import {Output} from "@/services/module/Output";
-import TableInput from "@/app/components/home/TableInput";
-import TableOutput from "@/app/components/home/TableOutput";
+import TableInput from "@/app/components/Pages/Home/TableInput";
+import TableOutput from "@/app/components/Pages/Home/TableOutput";
 import PageCard from "@/app/components/PageCard";
 import { Tab } from "@headlessui/react";
+import CreateButtonBar from "@/app/components/Pages/Home/CreateButtonBar";
 function classNames(...classes: any[]) {
     return classes.filter(Boolean).join(" ");
 }
@@ -18,9 +19,10 @@ const ClientPageHome = ({
 
 
     return (
-        <>
-
+        <div>
+            <CreateButtonBar/>
             <PageCard>
+
                 <div className={"w-full"}>
                     <Tab.Group>
                         <Tab.List className="flex space-x-1 rounded-xl bg-blue-900/20 p-1">
@@ -65,7 +67,7 @@ const ClientPageHome = ({
                 </div>
             </PageCard>
 
-        </>
+        </div>
     )
 }
 

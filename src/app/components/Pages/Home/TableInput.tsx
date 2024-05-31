@@ -24,15 +24,15 @@ const TableInput = ({
                     <th>Noa</th>
                 </tr>
                 </thead>
-                <tbody>
+                <tbody >
                 {data?.map((data: Input, index: number) => (
                     <tr key={index} className={`${data.oop == "مرتجع" ? 'badge-warning' : 'bg-gray-300'}`}>
                         <td>{data?.id}</td>
                         <td>{data.items.map((item: string, index: number) => (
-                            <p className={`my-2 ${data.oop == "مرتجع" ? "" : "bg-sky-400/50 rounded-xl"} text-center p-2`}
+                            <p className={`my-2 ${data.oop == "مرتجع" ? " bg-black/50 rounded-xl text-white" : "bg-sky-400/50 rounded-xl"} text-center p-2`}
                                key={index}>{item}</p>))}</td>
                         <td>{data.qtn.map((qtn: number, index: number) => (
-                            <p className={`my-2 ${data.oop == "مرتجع" ? "" : "bg-sky-400/50 rounded-xl"} text-center p-2`}
+                            <p className={`my-2 ${data.oop == "مرتجع" ? " bg-black/50 rounded-xl text-white" : "bg-sky-400/50 rounded-xl"} text-center p-2`}
                                key={index}>{qtn}</p>))}</td>
                         <td>{data.date}</td>
                         <td>{data.client}</td>
