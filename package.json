@@ -20,6 +20,8 @@
     "npm": "^10.6.0",
     "react": "^18",
     "react-dom": "^18",
+    "react-hook-form": "^7.51.5",
+    "react-toastify": "^10.0.5",
     "supabase": "^1.163.6"
   },
   "devDependencies": {

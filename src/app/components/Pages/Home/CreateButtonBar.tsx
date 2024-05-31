@@ -1,5 +1,6 @@
 import {useState} from "react";
 import CreateOrderForm from "@/app/components/Pages/Home/FormsOrder/CreateOrderForm";
+import AddedItemsForm from "@/app/components/Pages/Home/FormsOrder/AddedItemsForm";
 
 
 const CreateButtonBar = () => {
@@ -37,6 +38,8 @@ const CreateButtonBar = () => {
                         </div>
                     </div>
                 <CreateOrderForm isOpenCreate={isOpenCreate} closeModal={closeModal}/>
+                <AddedItemsForm isOpenAdd={isOpenAdd} closeModal={closeModal}/>
+
             </div>
         </>
     )
