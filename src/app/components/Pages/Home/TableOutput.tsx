@@ -1,18 +1,61 @@
 'use client'
-import {Input} from "@/services/module/Input";
 import {Output} from "@/services/module/Output";
+import DeleteIcon from "@/app/components/icons/DeleteIcon";
+import EditIcon from "@/app/components/icons/EditIcon";
+import Swal from "sweetalert2";
+import HandleRemoveOrder from "@/app/hook/HandleRemoveOrders";
+import {useQuery} from "@tanstack/react-query";
+import {StoreService} from "@/services/seviceDirect/StoreService";
+import {useRouter} from "next/navigation";
 
 
 const TableOutput = ({
+                         isTransitionStarted,
+                         isPending,
+                         startTransition,
+                         setPending,
                          outLimitData
                     }: {
-    outLimitData: Output[]
+    outLimitData: Output[],
+    isTransitionStarted:any,
+    setPending:React.Dispatch<boolean>,
+    startTransition:any,
+    isPending:boolean,
 
 }) => {
+    const isMutating:boolean = isPending || isTransitionStarted;
+    const rot = useRouter()
 
-    const data = outLimitData ? outLimitData.slice().reverse() : []
+    const dataOut = outLimitData ? outLimitData.slice().reverse() : []
+    const {data} = useQuery({
+        queryKey:['RemoveFromStore'],
+        queryFn:async ()=>{
+            return await StoreService.make<StoreService>().ReadDataBase()
+        }
+    })
+    const HandleDeleteData = (id:number,items:string[],qtn:number[])=>{
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't Remove These!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                HandleRemoveOrder(data?.data??[],dataOut,id,items,qtn,'order')
+                setPending(true);
+                startTransition(rot.refresh);
+                setPending(false);
+            }
+        });
+
+    }
+
 
     return (
+
         <div className="w-full overflow-x-auto rounded-xl">
             <table className="table min-w-[730px]">
                 <thead>
@@ -25,23 +68,36 @@ const TableOutput = ({
                     <th>Sender</th>
                     <th>Noa</th>
                     <th>All Qtn</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
                 </tr>
                 </thead>
                 <tbody>
-                {data?.map((data: Output, index: number) => (
-                    <tr key={index} className={`${data.delete ? 'badge-warning' : 'bg-gray-300'}`}>
-                        <td>{data?.id}</td>
-                        <td>{data.items.map((item: string, index: number) => (
-                            <p className={`my-2 ${data.delete? "" : "bg-sky-400/50 rounded-xl"} text-center p-2`}
+                {isMutating?<p>Loading....</p>:dataOut?.map((order: Output, index: number) => (
+                    <tr key={index} className={`${order.delete ? 'bg-error' : 'bg-gray-300'}`}>
+                        <td>{order?.id}</td>
+                        <td>{order.items.map((item: string, index: number) => (
+                            <p className={`my-2 ${order.delete? "bg-black/50 rounded-xl text-white" : "bg-sky-400/50 rounded-xl"} whitespace-nowrap text-center p-2`}
                                key={index}>{item}</p>))}</td>
-                        <td>{data.qtn.map((qtn: number, index: number) => (
-                            <p className={`my-2 ${data.delete ? "" : "bg-sky-400/50 rounded-xl"} text-center p-2`}
+                        <td>{order.qtn.map((qtn: number, index: number) => (
+                            <p className={`my-2 ${order.delete ? "bg-black/50 rounded-xl text-white" : "bg-sky-400/50 rounded-xl"} text-center p-2`}
                                key={index}>{qtn}</p>))}</td>
-                        <td>{data.date}</td>
-                        <td>{data.client}</td>
-                        <td>{data.sender}</td>
-                        <td>{data.noa}</td>
-                        <td>{data.allQtn}</td>
+                        <td>{order.date}</td>
+                        <td>{order.client}</td>
+                        <td>{order.sender}</td>
+                        <td>{order.noa}</td>
+                        <td>{order.allQtn}</td>
+                        <td>
+                            <button type={'button'} disabled={order.delete}  className={`w-fit p-2 group  ${order.delete?"":"hover:bg-red-300 cursor-pointer"} rounded-full `}>
+                                <DeleteIcon className={`h-8 w-8 group-hover:fill-black ${order.delete?"fill-black":"fill-red-400"}`}
+                                            onClick={()=>{HandleDeleteData(order?.id??0,order.items,order.qtn)}}/>
+                            </button>
+                        </td>
+                        <td>
+                            <div className='w-fit p-2  cursor-pointer'>
+                                <EditIcon className={'h-8 w-8 '}/>
+                            </div>
+                        </td>
                     </tr>
                 ))}
                 </tbody>

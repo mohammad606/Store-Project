@@ -25,7 +25,7 @@ const dataUser = !firebase.apps.length ? firebase.initializeApp(firebaseConfig) 
 
 export const database = firebase.database();
 export const app = dataUser
-export const data = getDatabase(app)
+export const dataApp = getDatabase(app)
 export const auth = getAuth(app)
 export const storage = getStorage(app)
 export const provider = new GoogleAuthProvider()

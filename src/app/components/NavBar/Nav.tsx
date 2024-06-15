@@ -13,9 +13,9 @@ const Nav = ()=>{
                        <MenuIcon className='w-8 h-8'/>
                     </div>
                     <ul tabIndex={0} className="menu  menu-xl dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
-                        <li><Link href={'/'}>Home</Link></li>
-                        <li><Link href={'/'}>OutPut</Link></li>
-                        <li><Link href={'/'}>Input</Link></li>
+                        <li><Link href={'/pages/home'}>Home</Link></li>
+                        <li><Link href={'/pages/all-order'}>OutPut</Link></li>
+                        <li><Link href={'/pages/all-received'}>Input</Link></li>
                         <li><Link href={'/'}>Store</Link></li>
 
                     </ul>

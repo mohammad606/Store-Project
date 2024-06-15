@@ -14,6 +14,7 @@ import {HandleAddOrRemoveData} from "@/app/hook/HandleAddOrRemoveData";
 import {useQuery} from "@tanstack/react-query";
 import {toast} from "react-toastify";
 import XMarkIcon from "@/app/components/icons/XMarkIcon";
+import Swal from "sweetalert2";
 
 export interface OrderType{
     sender:string,
@@ -93,26 +94,39 @@ const CreateOrderForm=({isOpenCreate,closeModal}:{isOpenCreate:boolean,closeModa
         queryKey:["StoreData"]
     })
     const handleSendData =async ()=>{
-          return await OutputService.make<OutputService>().limitToLast(1).then(async(res)=>{
-               const id =res[0].id +1
-              const allQtn = dataSend.qtn.reduce((acc, current) => acc + current, 0);
-              const send = {
-                   qtn:dataSend.qtn,
-                   items:dataSend.items,
-                   noa:dataSend.noa,
-                   sender:dataSend.sender,
-                   client:dataSend.client,
-                   date:dataSend.date,
-                   id:id,
-                  allQtn:allQtn
-               }
-               return await OutputService.make<OutputService>().store(id,send).then(()=>{
-                   HandleAddOrRemoveData(send.items,send.qtn,data?.data,"remove")
-                   toast.success("success",{theme:"dark"});
-                   handleClearData()
-                   closeModal('create')
-               })
-          })
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't Save The Order!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes!"
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                return await OutputService.make<OutputService>().limitToLast(1).then(async(res)=>{
+                    const id =res[0].id +1
+                    const allQtn = dataSend.qtn.reduce((acc, current) => acc + current, 0);
+                    const send = {
+                        qtn:dataSend.qtn,
+                        items:dataSend.items,
+                        noa:dataSend.noa,
+                        sender:dataSend.sender,
+                        client:dataSend.client,
+                        date:dataSend.date,
+                        id:id,
+                        allQtn:allQtn
+                    }
+                    return await OutputService.make<OutputService>().store(id,send).then(()=>{
+                        HandleAddOrRemoveData(send.items,send.qtn,data?.data,"remove")
+                        toast.success("success",{theme:"dark"});
+                        handleClearData()
+                        closeModal('create')
+                    })
+                })
+            }
+        });
+
 
     }
 

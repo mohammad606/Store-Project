@@ -1,5 +1,5 @@
 import {Dialog, Transition} from '@headlessui/react'
-import {Fragment, useState} from 'react'
+import {Fragment, useEffect, useState} from 'react'
 import PageCard from "@/app/components/PageCard";
 import ClearIcon from "@/app/components/icons/ClearIcon";
 import XMarkIcon from "@/app/components/icons/XMarkIcon";
@@ -10,12 +10,23 @@ import ApiSelect from "@/app/components/LayoutForms/InputsFilds/ApiSelector";
 import {StoreService} from "@/services/seviceDirect/StoreService";
 import {Store} from "@/services/module/Store";
 import DeleteIcon from "@/app/components/icons/DeleteIcon";
-import {OrderType} from "@/app/components/Pages/Home/FormsOrder/CreateOrderForm";
+import {useQuery} from "@tanstack/react-query";
+import Swal from "sweetalert2";
+import {HandleAddOrRemoveData} from "@/app/hook/HandleAddOrRemoveData";
+import {toast} from "react-toastify";
+import {InputService} from "@/services/seviceDirect/InputService";
 
-
+export interface AddType{
+    client:string,
+    date:string,
+    noa:number|undefined,
+    qtn:number[],
+    items:string[],
+}
 const AddedItemsForm = ({isOpenAdd, closeModal}: { isOpenAdd: boolean, closeModal: any }) => {
-    const [dataSend, setDataSend] = useState<OrderType>({
-        sender: "",
+    const [arrayOfItems , setArrayOfItems] = useState<string[]>([])
+    const [arrayOfQtn, setArrayOfQtn] = useState<number[]>([])
+    const [dataSend, setDataSend] = useState<AddType>({
         client: "",
         date: "",
         noa: undefined,
@@ -23,11 +34,95 @@ const AddedItemsForm = ({isOpenAdd, closeModal}: { isOpenAdd: boolean, closeModa
         items: [],
     })
     const handleSubmit = (data: any) => {
+        if(!arrayOfItems.includes(data.item) || data.item != ""){
+            setArrayOfItems([...arrayOfItems,data.item])
+            setArrayOfQtn([...arrayOfQtn,Number(data.qtn)])
+        }
+        setDataSend({
+            items:arrayOfItems,
+            qtn:arrayOfQtn,
+            date: data.date,
+            noa:data.noa,
+            client:data.client,
+        })
+        return data
+    }
+    useEffect(()=>{
+        setDataSend({
+            items:arrayOfItems,
+            qtn:arrayOfQtn,
+            date: dataSend.date,
+            noa:dataSend.noa,
+            client:dataSend.client,
+        })
+    },[arrayOfItems])
+    const handleClearData = ()=>{
+        setDataSend({
+            client:"",
+            date:"",
+            noa:undefined,
+            qtn:[],
+            items:[],
+        })
+        setArrayOfItems([])
+        setArrayOfQtn([])
 
     }
-    const handleClearData = () => {
+
+    const handleDelete = (index:number) => {
+        const newItems = arrayOfItems.filter((_, i) => i !== index);
+        const newQuantities = arrayOfQtn.filter((_, i) => i !== index);
+        setArrayOfItems(newItems);
+        setArrayOfQtn(newQuantities);
+        console.log(dataSend)
+    };
+    let combinedArray = arrayOfItems.map((item:string, index) => {
+        return {id: index, item: item, qtn: arrayOfQtn[index] };
+    });
+    const {data} = useQuery({
+        queryFn : async ()=>{
+            return await StoreService.make<StoreService>().ReadDataBase()
+        },
+        queryKey:["StoreDataForInput"]
+    })
+
+    const handleSendData =async ()=>{
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't Save The Order!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes!"
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                return await InputService.make<InputService>().limitToLast(1).then(async(res)=>{
+                    const id =res[0].id +1
+                    const allQtn = dataSend.qtn.reduce((acc, current) => acc + current, 0);
+                    const send = {
+                        qtn:dataSend.qtn,
+                        items:dataSend.items,
+                        noa:dataSend.noa,
+                        client:dataSend.client,
+                        date:dataSend.date,
+                        id:id,
+                        allQtn:allQtn
+                    }
+                    return await InputService.make<InputService>().store(id,send).then(()=>{
+                        HandleAddOrRemoveData(send.items,send.qtn,data?.data,"add")
+                        toast.success("success",{theme:"dark"});
+                        handleClearData()
+                        closeModal('add')
+                    })
+                })
+            }
+        });
+
 
     }
+
+
     return (
         <>
             <Transition appear show={isOpenAdd} as={Fragment}>
@@ -59,14 +154,14 @@ const AddedItemsForm = ({isOpenAdd, closeModal}: { isOpenAdd: boolean, closeModa
                                     className="w-full max-w-md min-w-[50vw] transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
                                     <PageCard>
                                         <div className="flex justify-between items-center w-full h-12">
-                                            <h2 className="card-title">Add Order</h2>
+                                            <h2 className="card-title">Add Items</h2>
 
                                             <div className={'flex'}>
                                                 <div onClick={handleClearData}
                                                      className='w-fit p-2 hover:bg-gray-300 rounded-full cursor-pointer mr-2'>
                                                     <ClearIcon className={'h-8 w-8 '}/>
                                                 </div>
-                                                <div onClick={() => closeModal('create')}
+                                                <div onClick={() => closeModal('add')}
                                                      className='w-fit p-2 hover:bg-gray-300 rounded-full cursor-pointer'>
                                                     <XMarkIcon className={'h-8 w-8 '}/>
                                                 </div>
@@ -79,8 +174,6 @@ const AddedItemsForm = ({isOpenAdd, closeModal}: { isOpenAdd: boolean, closeModa
                                                     <Input required={true} label={"Noa :"} name={'noa'} type={"number"}
                                                            role={"Qtn Is Required"}/>
                                                     <Input required={true} label={"Client :"} name={'client'}
-                                                           type={"text"} role={"Qtn Is Required"}/>
-                                                    <Input required={true} label={"Sender :"} name={'sender'}
                                                            type={"text"} role={"Qtn Is Required"}/>
                                                 </div>
                                                 <div>
@@ -111,20 +204,20 @@ const AddedItemsForm = ({isOpenAdd, closeModal}: { isOpenAdd: boolean, closeModa
                                                 </tr>
                                                 </thead>
                                                 <tbody>
-                                                {/*{combinedArray?.map((e,index)=>(*/}
-                                                {/*    <tr key={index}>*/}
-                                                {/*        <td >{e.item}</td>*/}
-                                                {/*        <td>{e.qtn}</td>*/}
-                                                {/*        <td onClick={()=>handleDelete(e.id)} ><div className='w-fit p-1 hover:bg-gray-300 rounded-full cursor-pointer'>*/}
-                                                {/*            <DeleteIcon className={'h-8 w-8 '}/>*/}
-                                                {/*        </div></td>*/}
-                                                {/*    </tr>*/}
-                                                {/*))}*/}
+                                                {combinedArray?.map((e,index)=>(
+                                                    <tr key={index}>
+                                                        <td >{e.item}</td>
+                                                        <td>{e.qtn}</td>
+                                                        <td onClick={()=>handleDelete(e.id)} ><div className='w-fit p-1 hover:bg-gray-300 rounded-full cursor-pointer'>
+                                                            <DeleteIcon className={'h-8 w-8 '}/>
+                                                        </div></td>
+                                                    </tr>
+                                                ))}
                                                 </tbody>
                                             </table>
                                         </div>
                                         <div className='w-full flex justify-center mt-3'>
-                                            <button type={'button'} className="btn btn-info">Send Items</button>
+                                            <button type={'button'} onClick={handleSendData} className="btn btn-info">Send Order</button>
                                         </div>
                                     </PageCard>
                                 </Dialog.Panel>

@@ -1,6 +1,6 @@
 import { DELETE, GET, POST, PUT } from "./Http";
 import { ref, child, get,set ,update ,push,remove} from "firebase/database";
-import {app, data} from "@/lib/firebase";
+import {app, dataApp} from "@/lib/firebase";
 import {ApiResponse} from "@/services/module/Respons";
 import axios, {Axios} from "axios";
 import {Store} from "@/services/module/Store";
@@ -54,7 +54,7 @@ export class BaseService<T> {
   }
 
   public async store(id: number,dataSend:any): Promise<ApiResponse<T>> {
-    const res = await set(ref(data,`${this.baseUrl}/${id}`), dataSend);
+    const res = await set(ref(dataApp,`${this.baseUrl}/${id}`), dataSend);
     return await this.errorHandler(res);
   }
 
@@ -68,7 +68,7 @@ export class BaseService<T> {
   }
 
   public async update(id: number, dataSend: any):Promise<ApiResponse<T>> {
-    const res = await update(ref(data,`${this.baseUrl}/${id}`),dataSend)
+    const res = await update(ref(dataApp,`${this.baseUrl}/${id}`),dataSend)
     return await this.errorHandler(res);
   }
 

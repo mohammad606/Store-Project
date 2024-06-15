@@ -6,6 +6,7 @@ import TableOutput from "@/app/components/Pages/Home/TableOutput";
 import PageCard from "@/app/components/PageCard";
 import { Tab } from "@headlessui/react";
 import CreateButtonBar from "@/app/components/Pages/Home/CreateButtonBar";
+import {useState, useTransition} from "react";
 function classNames(...classes: any[]) {
     return classes.filter(Boolean).join(" ");
 }
@@ -16,11 +17,12 @@ const ClientPageHome = ({
     inputLimitData:Input[],
     outLimitData:Output[]
 })=>{
-
+    const [isPending, setPending] = useState<boolean>(false);
+    const [isTransitionStarted, startTransition] = useTransition();
 
     return (
         <div>
-            <CreateButtonBar/>
+            <CreateButtonBar setPending={setPending} startTransition={startTransition}/>
             <PageCard>
 
                 <div className={"w-full"}>
@@ -56,10 +58,10 @@ const ClientPageHome = ({
                         </Tab.List>
                         <Tab.Panels className="mt-2">
                             <Tab.Panel className={"w-full"}>
-                                <TableInput inputLimitData={inputLimitData} />
+                                <TableInput inputLimitData={inputLimitData} isPending={isPending} isTransitionStarted={isTransitionStarted} setPending={setPending} startTransition={startTransition}/>
                             </Tab.Panel>
                             <Tab.Panel className={"w-full"}>
-                                <TableOutput outLimitData={outLimitData}/>
+                                <TableOutput outLimitData={outLimitData} isPending={isPending} isTransitionStarted={isTransitionStarted} setPending={setPending} startTransition={startTransition}/>
                             </Tab.Panel>
 
                         </Tab.Panels>

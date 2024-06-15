@@ -1,19 +1,32 @@
 import {useState} from "react";
 import CreateOrderForm from "@/app/components/Pages/Home/FormsOrder/CreateOrderForm";
 import AddedItemsForm from "@/app/components/Pages/Home/FormsOrder/AddedItemsForm";
+import {useRouter} from "next/navigation";
 
 
-const CreateButtonBar = () => {
+const CreateButtonBar = ({
+                             startTransition,
+                             setPending
+                         }:{
+    startTransition:any,
+    setPending:React.Dispatch<boolean>
+}) => {
 
     let [isOpenCreate, setIsOpenCreate] = useState(false)
     let [isOpenAdd, setIsOpenAdd] = useState(false)
-
+    const rot = useRouter()
 
     function closeModal(type:"create"|"add") {
         if(type == "create"){
             setIsOpenCreate(false)
+            setPending(true);
+            startTransition(rot.refresh);
+            setPending(false);
         }else {
             setIsOpenAdd(false)
+            setPending(true);
+            startTransition(rot.refresh);
+            setPending(false);
         }
     }
 
