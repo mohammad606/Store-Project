@@ -16,7 +16,7 @@ const Nav = ()=>{
                         <li><Link href={'/pages/home'}>Home</Link></li>
                         <li><Link href={'/pages/all-order'}>OutPut</Link></li>
                         <li><Link href={'/pages/all-received'}>Input</Link></li>
-                        <li><Link href={'/'}>Store</Link></li>
+                        <li><Link href={'/pages/store'}>Store</Link></li>
 
                     </ul>
                 </div>
