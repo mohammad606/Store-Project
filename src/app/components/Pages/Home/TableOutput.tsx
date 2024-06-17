@@ -7,6 +7,7 @@ import HandleRemoveOrder from "@/app/hook/HandleRemoveOrders";
 import {useQuery} from "@tanstack/react-query";
 import {StoreService} from "@/services/seviceDirect/StoreService";
 import {useRouter} from "next/navigation";
+import {isArray} from "util";
 
 
 const TableOutput = ({
@@ -26,7 +27,7 @@ const TableOutput = ({
     const isMutating:boolean = isPending || isTransitionStarted;
     const rot = useRouter()
 
-    const dataOut = outLimitData ? outLimitData.slice().reverse() : []
+    const dataOut = isArray(outLimitData) && outLimitData.length != 0 ? outLimitData.slice().reverse() : []
     const {data} = useQuery({
         queryKey:['RemoveFromStore'],
         queryFn:async ()=>{

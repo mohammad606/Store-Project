@@ -17,6 +17,8 @@ const Nav = ()=>{
                         <li><Link href={'/pages/all-order'}>OutPut</Link></li>
                         <li><Link href={'/pages/all-received'}>Input</Link></li>
                         <li><Link href={'/pages/store'}>Store</Link></li>
+                        <li><Link href={'/pages/inventory'}>Inventory</Link></li>
+
 
                     </ul>
                 </div>

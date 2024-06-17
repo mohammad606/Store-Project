@@ -1,25 +1,21 @@
 'use client'
 import {Dialog, Transition} from "@headlessui/react";
-import {Fragment} from "react";
+import {Fragment, useState} from "react";
 import PageCard from "@/app/components/PageCard";
 import Form from "@/app/components/LayoutForms/Form";
 import {StoreService} from "@/services/seviceDirect/StoreService";
 import {Store} from "@/services/module/Store";
 import Input from "@/app/components/LayoutForms/InputsFilds/Input";
+import ApiSelect from "@/app/components/LayoutForms/InputsFilds/ApiSelector";
 
 
-const AddItemToStore = ({isOpenAdd, closeModal}: { isOpenAdd: boolean, closeModal: any })=>{
+const EditItemFromStore = ({isOpenCreate, closeModal}: { isOpenCreate: boolean, closeModal: any })=>{
 
-
+    const [id,setId] = useState<number>(0)
     const handleSubmit =async (data:any)=>{
-         const store = await StoreService.make<StoreService>().limitToLast(1)
-         const id = store[0] ? store[0].id +1 : 0
-        const dataSend :Store= {
-             id:id,
-            ...data
-        }
-        return await StoreService.make<StoreService>().store(id,dataSend).then(res=>{
-            closeModal('add')
+
+        return await StoreService.make<StoreService>().update(id,data).then(res=>{
+            closeModal('edit')
             return res
         })
 
@@ -27,8 +23,8 @@ const AddItemToStore = ({isOpenAdd, closeModal}: { isOpenAdd: boolean, closeModa
 
 
     return (
-        <Transition appear show={isOpenAdd} as={Fragment}>
-            <Dialog as="div" className="relative z-10" onClose={()=>closeModal('add')}>
+        <Transition appear show={isOpenCreate} as={Fragment}>
+            <Dialog as="div" className="relative z-10" onClose={()=>closeModal('edit')}>
                 <Transition.Child
                     as={Fragment}
                     enter="ease-out duration-300"
@@ -56,10 +52,20 @@ const AddItemToStore = ({isOpenAdd, closeModal}: { isOpenAdd: boolean, closeModa
                                 <PageCard>
                                     <Form handleSubmit={handleSubmit}
                                           defaultValues={ []}>
-                                        <Input required={true} label={"Item Name :"} name={'item'} type={"text"}
-                                               role={"Item Is Required"}/>
-                                        <Input required={true} label={"Box :"} name={'box'} type={"number"}
-                                               role={"Box Is Required"}/>
+                                        <ApiSelect
+                                            required={true}
+                                            placeHolder={"Select Clinic name ..."}
+                                            name={"item"}
+                                            api={() =>
+                                                StoreService.make<StoreService>().ReadDataBase()
+                                            }
+                                            onSelect={(selectedItem)=>{
+                                               return setId(selectedItem?.id ?? 0)
+                                            }}
+                                            label={"Item Name"}
+                                            optionValue={"item"}
+                                            getOptionLabel={(data: Store) => (data.item)}
+                                        />
                                         <Input required={true} label={"Qtn :"} name={'qtn'} type={"number"}
                                                role={"Qtn Is Required"}/>
                                     </Form>
@@ -73,4 +79,4 @@ const AddItemToStore = ({isOpenAdd, closeModal}: { isOpenAdd: boolean, closeModa
     )
 }
 
-export default AddItemToStore
+export default EditItemFromStore

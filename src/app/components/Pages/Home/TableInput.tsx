@@ -7,6 +7,7 @@ import {useRouter} from "next/navigation";
 import {useQuery} from "@tanstack/react-query";
 import {StoreService} from "@/services/seviceDirect/StoreService";
 import Swal from 'sweetalert2'
+import {isArray} from "util";
 
 
 const TableInput = ({
@@ -31,7 +32,7 @@ const TableInput = ({
             return await StoreService.make<StoreService>().ReadDataBase()
         }
     })
-    const dataInput = inputLimitData ? inputLimitData.slice().reverse() : []
+    const dataInput = isArray(inputLimitData) && inputLimitData.length != 0 ? inputLimitData.slice().reverse() : []
 
     const HandleDeleteData = (id:number,items:string[],qtn:number[])=>{
         Swal.fire({

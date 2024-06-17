@@ -38,7 +38,10 @@ const ClientStorePage = ({store}:{store:Store[]})=>{
         <PageCard>
             <div className="flex flex-wrap justify-between items-center w-full h-24">
                 <h2 className="card-title whitespace-nowrap">All Items : </h2>
+            </div>
+            <div className={'my-4'}>
                 <EditStoreButtonBar startTransition={startTransition} setPending={setPending}/>
+
             </div>
             <div className="w-full overflow-x-auto rounded-xl">
                 <table className="table min-w-[730px]">

@@ -105,7 +105,7 @@ const CreateOrderForm=({isOpenCreate,closeModal}:{isOpenCreate:boolean,closeModa
         }).then(async (result) => {
             if (result.isConfirmed) {
                 return await OutputService.make<OutputService>().limitToLast(1).then(async(res)=>{
-                    const id =res[0].id +1
+                    const id = res[0] ? res[0].id +1 : 0
                     const allQtn = dataSend.qtn.reduce((acc, current) => acc + current, 0);
                     const send = {
                         qtn:dataSend.qtn,

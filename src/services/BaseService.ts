@@ -6,6 +6,7 @@ import axios, {Axios} from "axios";
 import {Store} from "@/services/module/Store";
 import {Input} from "@/services/module/Input";
 import {Output} from "@/services/module/Output";
+import {isArray} from "util";
 export class BaseService<T> {
   protected static instance?: BaseService<any>;
   public baseUrl = "/";
@@ -36,7 +37,7 @@ export class BaseService<T> {
 
     try {
       const response = await GET(`${this.baseUrl}.json`);
-      const cleanedData = (response.data as (T | null)[]).filter(item => item !== null);
+      const cleanedData = isArray(response.data)? (response.data as (T | null)[]).filter(item => item !== null):response.data
       // @ts-ignore
       const res: ApiResponse<(T | null)[]> = {
         data: cleanedData,
@@ -53,7 +54,7 @@ export class BaseService<T> {
     }
   }
 
-  public async store(id: number,dataSend:any): Promise<ApiResponse<T>> {
+  public async store(id: number | string,dataSend:any): Promise<ApiResponse<T>> {
     const res = await set(ref(dataApp,`${this.baseUrl}/${id}`), dataSend);
     return await this.errorHandler(res);
   }
