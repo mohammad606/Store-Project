@@ -1,7 +1,7 @@
 'use client'
 import {Output} from "@/services/module/Output";
-import DeleteIcon from "@/app/components/icons/DeleteIcon";
-import EditIcon from "@/app/components/icons/EditIcon";
+import DeleteIcon from "@/app/components/common/icons/DeleteIcon";
+import EditIcon from "@/app/components/common/icons/EditIcon";
 import Swal from "sweetalert2";
 import HandleRemoveOrder from "@/app/hook/HandleRemoveOrders";
 import {useQuery} from "@tanstack/react-query";

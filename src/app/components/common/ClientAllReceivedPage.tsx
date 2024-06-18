@@ -9,14 +9,14 @@ import {
     HeaderGroup,
     TableInstance,
 } from 'react-table';
-import DeleteIcon from "@/app/components/icons/DeleteIcon";
-import EditIcon from "@/app/components/icons/EditIcon";
+import DeleteIcon from "@/app/components/common/icons/DeleteIcon";
+import EditIcon from "@/app/components/common/icons/EditIcon";
 import Swal from "sweetalert2";
 import HandleRemoveOrder from "@/app/hook/HandleRemoveOrders";
-import PageCard from "@/app/components/PageCard";
-import TowRowIcon from "@/app/components/icons/TowRowIcon";
-import RowIcon from "@/app/components/icons/RowIcon";
-import SelectPopOver from "@/app/components/LayoutForms/InputsFilds/SelectPopOver";
+import PageCard from "@/app/components/common/ui/PageCard";
+import TowRowIcon from "@/app/components/common/icons/TowRowIcon";
+import RowIcon from "@/app/components/common/icons/RowIcon";
+import SelectPopOver from "@/app/components/common/ui/InputsFilds/SelectPopOver";
 import {useQuery} from "@tanstack/react-query";
 import {StoreService} from "@/services/seviceDirect/StoreService";
 import {useRouter} from "next/navigation";

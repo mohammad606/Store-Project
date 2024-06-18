@@ -1,12 +1,12 @@
 'use client'
 import {Dialog, Transition} from "@headlessui/react";
 import {Fragment, useState} from "react";
-import PageCard from "@/app/components/PageCard";
-import Form from "@/app/components/LayoutForms/Form";
+import PageCard from "@/app/components/common/ui/PageCard";
+import Form from "@/app/components/common/ui/Form";
 import {StoreService} from "@/services/seviceDirect/StoreService";
 import {Store} from "@/services/module/Store";
-import Input from "@/app/components/LayoutForms/InputsFilds/Input";
-import ApiSelect from "@/app/components/LayoutForms/InputsFilds/ApiSelector";
+import Input from "@/app/components/common/ui/InputsFilds/Input";
+import ApiSelect from "@/app/components/common/ui/InputsFilds/ApiSelector";
 
 
 const EditItemFromStore = ({isOpenCreate, closeModal}: { isOpenCreate: boolean, closeModal: any })=>{

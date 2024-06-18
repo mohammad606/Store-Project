@@ -1,20 +1,21 @@
 import {Dialog, Transition} from '@headlessui/react'
 import {Fragment, useEffect, useState} from 'react'
-import PageCard from "@/app/components/PageCard";
-import ClearIcon from "@/app/components/icons/ClearIcon";
-import XMarkIcon from "@/app/components/icons/XMarkIcon";
-import Form from "@/app/components/LayoutForms/Form";
-import Input from "@/app/components/LayoutForms/InputsFilds/Input";
-import DatePicker from "@/app/components/LayoutForms/InputsFilds/DatePicker";
-import ApiSelect from "@/app/components/LayoutForms/InputsFilds/ApiSelector";
+import PageCard from "@/app/components/common/ui/PageCard";
+import ClearIcon from "@/app/components/common/icons/ClearIcon";
+import XMarkIcon from "@/app/components/common/icons/XMarkIcon";
+import Form from "@/app/components/common/ui/Form";
+import Input from "@/app/components/common/ui/InputsFilds/Input";
+import DatePicker from "@/app/components/common/ui/InputsFilds/DatePicker";
+import ApiSelect from "@/app/components/common/ui/InputsFilds/ApiSelector";
 import {StoreService} from "@/services/seviceDirect/StoreService";
 import {Store} from "@/services/module/Store";
-import DeleteIcon from "@/app/components/icons/DeleteIcon";
+import DeleteIcon from "@/app/components/common/icons/DeleteIcon";
 import {useQuery} from "@tanstack/react-query";
 import Swal from "sweetalert2";
 import {HandleAddOrRemoveData} from "@/app/hook/HandleAddOrRemoveData";
 import {toast} from "react-toastify";
 import {InputService} from "@/services/seviceDirect/InputService";
+import SelectPopOver from "@/app/components/common/ui/InputsFilds/SelectPopOver";
 
 export interface AddType{
     client:string,
@@ -86,6 +87,9 @@ const AddedItemsForm = ({isOpenAdd, closeModal}: { isOpenAdd: boolean, closeModa
         queryKey:["StoreDataForInput"]
     })
 
+    const [oop,setOop] = useState('انتاج')
+
+
     const handleSendData =async ()=>{
         Swal.fire({
             title: "Are you sure?",
@@ -101,6 +105,7 @@ const AddedItemsForm = ({isOpenAdd, closeModal}: { isOpenAdd: boolean, closeModa
                     const id = res[0] ? res[0].id +1: 0
                     const allQtn = dataSend.qtn.reduce((acc, current) => acc + current, 0);
                     const send = {
+                        oop:oop,
                         qtn:dataSend.qtn,
                         items:dataSend.items,
                         noa:dataSend.noa,
@@ -171,10 +176,13 @@ const AddedItemsForm = ({isOpenAdd, closeModal}: { isOpenAdd: boolean, closeModa
                                               defaultValues={dataSend ?? []}>
                                             <div className={'grid md:grid-cols-2 gap-5 '}>
                                                 <div>
+                                                    <SelectPopOver handleSelect={(e:string)=>setOop(e)} label={"Oop : "} id={1} status={oop} ArraySelect={["انتاج","مرتجع"]}/>
                                                     <Input required={true} label={"Noa :"} name={'noa'} type={"number"}
                                                            role={"Qtn Is Required"}/>
-                                                    <Input required={true} label={"Client :"} name={'client'}
-                                                           type={"text"} role={"Qtn Is Required"}/>
+
+                                                    {oop == "مرتجع"?<Input  required={true} label={"Client :"} name={'client'}
+                                                                            type={"text"} role={"Qtn Is Required"}/>:""}
+
                                                 </div>
                                                 <div>
                                                     <DatePicker required={true} label={"Date :"} name={'date'}/>

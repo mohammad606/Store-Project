@@ -1,5 +1,5 @@
 import {InputService} from "@/services/seviceDirect/InputService";
-import ClientAllReceivedPage from "@/app/components/Pages/allReceived/ClientAllReceivedPage";
+import ClientAllReceivedPage from "@/app/components/common/ClientAllReceivedPage";
 import {Input} from "@/services/module/Input";
 
 

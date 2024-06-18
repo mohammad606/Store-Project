@@ -1,12 +1,12 @@
 'use client'
 import {Dialog, Transition} from "@headlessui/react";
 import {Fragment} from "react";
-import PageCard from "@/app/components/PageCard";
-import Form from "@/app/components/LayoutForms/Form";
+import PageCard from "@/app/components/common/ui/PageCard";
+import Form from "@/app/components/common/ui/Form";
 import {StoreService} from "@/services/seviceDirect/StoreService";
-import DatePicker from "@/app/components/LayoutForms/InputsFilds/DatePicker";
+import DatePicker from "@/app/components/common/ui/InputsFilds/DatePicker";
 import {InventoryService} from "@/services/seviceDirect/InventoryService";
-import Textarea from "@/app/components/LayoutForms/InputsFilds/Textarea";
+import Textarea from "@/app/components/common/ui/InputsFilds/Textarea";
 
 
 const SaveInventory = ({isOpenSave, closeModal}: { isOpenSave: boolean, closeModal: any }) => {

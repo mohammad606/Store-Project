@@ -3,7 +3,7 @@ import React from "react";
 import {FormProvider, useForm} from "react-hook-form";
 import {ApiResponse} from "@/services/module/Respons";
 import {toast} from "react-toastify";
-import LoadingSpin from "@/app/components/icons/LodingSpan";
+import LoadingSpin from "@/app/components/common/icons/LodingSpan";
 
 const Form = ({
                   children,

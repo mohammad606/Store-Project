@@ -2,10 +2,10 @@
 import React, { useEffect, useRef, useState,ChangeEvent, HTMLProps, ReactNode } from "react";
 import { useFormContext } from "react-hook-form";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import LoadingSpin from "@/app/components/icons/LodingSpan";
+import LoadingSpin from "@/app/components/common/icons/LodingSpan";
 import {ApiResponse, getNestedPropertyValue} from "@/services/module/Respons";
-import XMarkIcon from "@/app/components/icons/XMarkIcon";
-import ChevronDown from "@/app/components/icons/ChevronDown";
+import XMarkIcon from "@/app/components/common/icons/XMarkIcon";
+import ChevronDown from "@/app/components/common/icons/ChevronDown";
 export interface Option {
     label: any;
     value: any;

@@ -1,5 +1,5 @@
 import {OutputService} from "@/services/seviceDirect/OutputService";
-import ClientAllOrderPage from "@/app/components/Pages/allOrder/ClientAllOrderPage";
+import ClientAllOrderPage from "@/app/components/common/ClientAllOrderPage";
 import {Output} from "@/services/module/Output";
 
 

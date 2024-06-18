@@ -1,6 +1,6 @@
 import Link from "next/link";
-import LogOutIcon from "@/app/components/icons/LogOutIcon";
-import MenuIcon from "@/app/components/icons/MenuIcon";
+import LogOutIcon from "@/app/components/common/icons/LogOutIcon";
+import MenuIcon from "@/app/components/common/icons/MenuIcon";
 
 
 const Nav = ()=>{

@@ -1,8 +1,8 @@
 'use client'
 
-import PageCard from "@/app/components/PageCard";
+import PageCard from "@/app/components/common/ui/PageCard";
 import {Inventory} from "@/services/module/Inventory";
-import DeleteIcon from "@/app/components/icons/DeleteIcon";
+import DeleteIcon from "@/app/components/common/icons/DeleteIcon";
 
 const ClientInventoryPage = ({inventory}: { inventory: Inventory[] }) => {
 

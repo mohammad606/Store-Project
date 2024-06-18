@@ -3,7 +3,7 @@ import {Input} from "@/services/module/Input";
 import {Output} from "@/services/module/Output";
 import TableInput from "@/app/components/Pages/Home/TableInput";
 import TableOutput from "@/app/components/Pages/Home/TableOutput";
-import PageCard from "@/app/components/PageCard";
+import PageCard from "@/app/components/common/ui/PageCard";
 import { Tab } from "@headlessui/react";
 import CreateButtonBar from "@/app/components/Pages/Home/CreateButtonBar";
 import {useState, useTransition} from "react";

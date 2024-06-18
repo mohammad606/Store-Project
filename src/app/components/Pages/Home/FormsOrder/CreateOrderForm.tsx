@@ -1,19 +1,19 @@
 import { Dialog, Transition } from '@headlessui/react'
 import {Fragment, useEffect, useState} from 'react'
-import PageCard from "@/app/components/PageCard";
-import Form from "@/app/components/LayoutForms/Form";
-import Input from "@/app/components/LayoutForms/InputsFilds/Input";
+import PageCard from "@/app/components/common/ui/PageCard";
+import Form from "@/app/components/common/ui/Form";
+import Input from "@/app/components/common/ui/InputsFilds/Input";
 import {StoreService} from "@/services/seviceDirect/StoreService";
 import {Store} from "@/services/module/Store";
-import ApiSelect from "@/app/components/LayoutForms/InputsFilds/ApiSelector";
-import DatePicker from "@/app/components/LayoutForms/InputsFilds/DatePicker";
-import DeleteIcon from "@/app/components/icons/DeleteIcon";
-import ClearIcon from "@/app/components/icons/ClearIcon";
+import ApiSelect from "@/app/components/common/ui/InputsFilds/ApiSelector";
+import DatePicker from "@/app/components/common/ui/InputsFilds/DatePicker";
+import DeleteIcon from "@/app/components/common/icons/DeleteIcon";
+import ClearIcon from "@/app/components/common/icons/ClearIcon";
 import {OutputService} from "@/services/seviceDirect/OutputService";
 import {HandleAddOrRemoveData} from "@/app/hook/HandleAddOrRemoveData";
 import {useQuery} from "@tanstack/react-query";
 import {toast} from "react-toastify";
-import XMarkIcon from "@/app/components/icons/XMarkIcon";
+import XMarkIcon from "@/app/components/common/icons/XMarkIcon";
 import Swal from "sweetalert2";
 
 export interface OrderType{
@@ -36,6 +36,7 @@ const CreateOrderForm=({isOpenCreate,closeModal}:{isOpenCreate:boolean,closeModa
         qtn:[],
         items:[],
     })
+
     const handleSubmit=(data:any)=>{
         if(!arrayOfItems.includes(data.item) || data.item != ""){
             setArrayOfItems([...arrayOfItems,data.item])
@@ -130,7 +131,9 @@ const CreateOrderForm=({isOpenCreate,closeModal}:{isOpenCreate:boolean,closeModa
 
     }
 
-
+    console.log(arrayOfItems)
+    console.log(arrayOfQtn)
+    console.log(dataSend)
     return (
         <>
             <Transition appear show={isOpenCreate} as={Fragment}>

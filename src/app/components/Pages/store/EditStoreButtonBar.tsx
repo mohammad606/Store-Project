@@ -51,19 +51,19 @@ const EditStoreButtonBar = ({
     return (
         <>
             <div className="navbar bg-base-100 flex justify-center">
-                <div className='w-8/12 flex flex-wrap justify-between items-center'>
+                <div className='w-8/12 flex flex-wrap justify-center md:justify-between items-center'>
                     <div className=''>
-                        <button onClick={() => openModal('edit')} type='button' className="btn btn-info mx-3">Edit
+                        <button onClick={() => openModal('edit')} type='button' className="btn btn-info my-2 mx-3">Edit
                             Item
                         </button>
                     </div>
                     <div>
-                        <button onClick={() => openModal('add')} type='button' className="btn btn-success mx-3">Add
+                        <button onClick={() => openModal('add')} type='button' className="btn btn-success my-2 mx-3">Add
                             Items
                         </button>
                     </div>
                     <div>
-                        <button onClick={() => openModal('save')} type='button' className="btn btn-warning mx-3">Save
+                        <button onClick={() => openModal('save')} type='button' className="btn btn-warning my-2 mx-3">Save
                             Inventory
                         </button>
                     </div>

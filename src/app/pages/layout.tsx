@@ -1,4 +1,4 @@
-import Nav from "@/app/components/NavBar/Nav";
+import Nav from "@/app/components/common/NavBar/Nav";
 
 export default function RootLayout({
   children,

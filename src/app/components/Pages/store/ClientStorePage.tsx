@@ -1,13 +1,17 @@
 'use client'
 
 import {Store} from "@/services/module/Store";
-import PageCard from "@/app/components/PageCard";
+import PageCard from "@/app/components/common/ui/PageCard";
 import React, {useState, useTransition} from "react";
-import DeleteIcon from "@/app/components/icons/DeleteIcon";
+import DeleteIcon from "@/app/components/common/icons/DeleteIcon";
 import Swal from 'sweetalert2'
 import {StoreService} from "@/services/seviceDirect/StoreService";
 import {useRouter} from "next/navigation";
 import EditStoreButtonBar from "@/app/components/Pages/store/EditStoreButtonBar";
+import OrderIcon from "@/app/components/common/icons/OrderIcon";
+import Link from "next/link";
+import ProductionProps from "@/app/components/common/icons/ProductionIcon";
+import {setCookieClient} from "@/actions/clientCookies";
 
 const ClientStorePage = ({store}:{store:Store[]})=>{
     const [isPending, setPending] = useState<boolean>(false);
@@ -52,7 +56,7 @@ const ClientStorePage = ({store}:{store:Store[]})=>{
                         <th>Quantity</th>
                         <th>Box</th>
                         <th>All Order</th>
-                        <th>All Added</th>
+                        <th>All Production</th>
                         <th>Delete</th>
                     </tr>
                     </thead>
@@ -76,20 +80,20 @@ const ClientStorePage = ({store}:{store:Store[]})=>{
                                     </p>
                                 </td>
                                 <td className='w-[14.2%] '>
-                                    {/*<Link href={`showOrder/${e?.item}/order`}*/}
-                                    {/*      className='flex justify-center '>*/}
-                                    {/*    <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="40" height="30" viewBox="0 0 48 48">*/}
-                                    {/*        <linearGradient id="9iHXMuvV7brSX7hFt~tsna_Rdp3AydLFY2A_gr1" x1="12.066" x2="34.891" y1=".066" y2="22.891" gradientUnits="userSpaceOnUse"><stop offset=".237" stopColor="#3bc9f3"></stop><stop offset=".85" stopColor="#1591d8"></stop></linearGradient><path fill="url(#9iHXMuvV7brSX7hFt~tsna_Rdp3AydLFY2A_gr1)" d="M43,15H5c-1.1,0-2-0.9-2-2v-2c0-1.1,0.9-2,2-2h38c1.1,0,2,0.9,2,2v2C45,14.1,44.1,15,43,15z"></path><linearGradient id="9iHXMuvV7brSX7hFt~tsnb_Rdp3AydLFY2A_gr2" x1="12.066" x2="34.891" y1="12.066" y2="34.891" gradientUnits="userSpaceOnUse"><stop offset=".237" stopColor="#3bc9f3"></stop><stop offset=".85" stopColor="#1591d8"></stop></linearGradient><path fill="url(#9iHXMuvV7brSX7hFt~tsnb_Rdp3AydLFY2A_gr2)" d="M43,27H5c-1.1,0-2-0.9-2-2v-2c0-1.1,0.9-2,2-2h38c1.1,0,2,0.9,2,2v2C45,26.1,44.1,27,43,27z"></path><linearGradient id="9iHXMuvV7brSX7hFt~tsnc_Rdp3AydLFY2A_gr3" x1="12.066" x2="34.891" y1="24.066" y2="46.891" gradientUnits="userSpaceOnUse"><stop offset=".237" stopColor="#3bc9f3"></stop><stop offset=".85" stopColor="#1591d8"></stop></linearGradient><path fill="url(#9iHXMuvV7brSX7hFt~tsnc_Rdp3AydLFY2A_gr3)" d="M43,39H5c-1.1,0-2-0.9-2-2v-2c0-1.1,0.9-2,2-2h38c1.1,0,2,0.9,2,2v2C45,38.1,44.1,39,43,39z"></path>*/}
-                                    {/*    </svg>*/}
-                                    {/*</Link>*/}
+                                    <div className='w-12 h-12 p-2 group rounded-full hover:bg-sky-400/50 cursor-pointer '
+                                      onClick={()=>window.localStorage.setItem('orderItem',e.item)}>
+                                        <Link href={`show-order/${e?.id}/order`}>
+                                            <OrderIcon className={'w-8 h-8 group-hover:fill-white '}/>
+                                        </Link>
+                                    </div>
                                 </td>
                                 <td className='w-[14.2%]'>
-                                    {/*<Link href={`showOrder/${e?.item}/input`}*/}
-                                    {/*      className='flex justify-center'>*/}
-                                    {/*    <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="40" height="30" viewBox="0,0,256,256">*/}
-                                    {/*        <defs><linearGradient x1="12.066" y1="0.066" x2="34.891" y2="22.891" gradientUnits="userSpaceOnUse" id="color-1_Rdp3AydLFY2A_gr1"><stop offset="0.237" stopColor="#8859f3"></stop><stop offset="0.85" stopColor="#1591d8"></stop></linearGradient><linearGradient x1="12.066" y1="12.066" x2="34.891" y2="34.891" gradientUnits="userSpaceOnUse" id="color-2_Rdp3AydLFY2A_gr2"><stop offset="0.237" stopColor="#8859f3"></stop><stop offset="0.85" stopColor="#1591d8"></stop></linearGradient><linearGradient x1="12.066" y1="24.066" x2="34.891" y2="46.891" gradientUnits="userSpaceOnUse" id="color-3_Rdp3AydLFY2A_gr3"><stop offset="0.237" stopColor="#8859f3"></stop><stop offset="0.85" stopColor="#1591d8"></stop></linearGradient></defs><g fill="none" fillRule="nonzero" stroke="none" strokeWidth="1" strokeLinecap="butt" strokeLinejoin="miter" strokeMiterlimit="10" strokeDasharray="" strokeDashoffset="0" fontFamily="none" fontWeight="none" fontSize="none" textAnchor="none" style={{mixBlendMode: 'normal'}}><g transform="scale(5.33333,5.33333)"><path d="M43,15h-38c-1.1,0 -2,-0.9 -2,-2v-2c0,-1.1 0.9,-2 2,-2h38c1.1,0 2,0.9 2,2v2c0,1.1 -0.9,2 -2,2z" fill="url(#color-1_Rdp3AydLFY2A_gr1)"></path><path d="M43,27h-38c-1.1,0 -2,-0.9 -2,-2v-2c0,-1.1 0.9,-2 2,-2h38c1.1,0 2,0.9 2,2v2c0,1.1 -0.9,2 -2,2z" fill="url(#color-2_Rdp3AydLFY2A_gr2)"></path><path d="M43,39h-38c-1.1,0 -2,-0.9 -2,-2v-2c0,-1.1 0.9,-2 2,-2h38c1.1,0 2,0.9 2,2v2c0,1.1 -0.9,2 -2,2z" fill="url(#color-3_Rdp3AydLFY2A_gr3)"></path></g></g>*/}
-                                    {/*    </svg>*/}
-                                    {/*</Link>*/}
+                                    <div className='w-12 h-12 p-2 group rounded-full hover:bg-sky-400/50 cursor-pointer '
+                                          onClick={()=>window.localStorage.setItem('productionItem',e.item)}>
+                                        <Link href={`show-order/${e?.id}/production`}>
+                                            <ProductionProps className={'w-8 h-8 group-hover:fill-white '}/>
+                                        </Link>
+                                    </div>
                                 </td>
                                 <td className='w-[14.2%] p-2'>
                                     <button type={'button'}   className={`w-fit p-2 group rounded-full hover:bg-red-400 `}>

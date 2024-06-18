@@ -1,7 +1,7 @@
 'use client'
 import {Input} from "@/services/module/Input";
-import DeleteIcon from "@/app/components/icons/DeleteIcon";
-import EditIcon from "@/app/components/icons/EditIcon";
+import DeleteIcon from "@/app/components/common/icons/DeleteIcon";
+import EditIcon from "@/app/components/common/icons/EditIcon";
 import HandleRemoveOrder from "@/app/hook/HandleRemoveOrders";
 import {useRouter} from "next/navigation";
 import {useQuery} from "@tanstack/react-query";
