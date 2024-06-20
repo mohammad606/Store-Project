@@ -66,11 +66,12 @@ const TableOutput = ({
                     <th>Id</th>
                     <th>Items</th>
                     <th>Qtn</th>
+                    <th>All Qtn</th>
                     <th>Date</th>
                     <th>Client</th>
                     <th>Sender</th>
                     <th>Noa</th>
-                    <th>All Qtn</th>
+
                     <th>Edit</th>
                     <th>Delete</th>
                 </tr>
@@ -85,11 +86,12 @@ const TableOutput = ({
                         <td>{order.qtn.map((qtn: number, index: number) => (
                             <p className={`my-2 ${order.delete ? "bg-black/50 rounded-xl text-white" : "bg-sky-400/50 rounded-xl"} text-center p-2`}
                                key={index}>{qtn}</p>))}</td>
+                        <td>{order.allQtn}</td>
                         <td>{order.date}</td>
                         <td>{order.client}</td>
                         <td>{order.sender}</td>
                         <td>{order.noa}</td>
-                        <td>{order.allQtn}</td>
+
                         <td>
                             <button type={'button'} disabled={order.delete}  className={`w-fit p-2 group  ${order.delete?"":"hover:bg-red-300 cursor-pointer"} rounded-full `}>
                                 <DeleteIcon className={`h-8 w-8 group-hover:fill-black ${order.delete?"fill-black":"fill-red-400"}`}

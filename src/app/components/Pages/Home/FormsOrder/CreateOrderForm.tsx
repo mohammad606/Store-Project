@@ -40,7 +40,7 @@ const CreateOrderForm = ({ isOpenCreate, closeModal }: { isOpenCreate: boolean, 
     const handleSubmit = (data: any) => {
         if (!arrayOfItems.includes(data.item)) {
             setArrayOfItems([...arrayOfItems, data.item]);
-            setArrayOfQtn([...arrayOfQtn, data.qtn]);
+            setArrayOfQtn([...arrayOfQtn,Number(data.qtn)]);
         } else {
             toast.error("Item already exists", { theme: "dark" });
             return;
@@ -48,7 +48,7 @@ const CreateOrderForm = ({ isOpenCreate, closeModal }: { isOpenCreate: boolean, 
 
         setDataSend({
             items: [...arrayOfItems, data.item],
-            qtn: [...arrayOfQtn, data.qtn],
+            qtn: [...arrayOfQtn, Number(data.qtn)],
             date: data.date,
             noa: data.noa,
             client: data.client,
@@ -114,7 +114,7 @@ const CreateOrderForm = ({ isOpenCreate, closeModal }: { isOpenCreate: boolean, 
             if (result.isConfirmed) {
                 return await OutputService.make<OutputService>().limitToLast(1).then(async (res) => {
                     const id = res[0] ? res[0].id + 1 : 0
-                    const allQtn = dataSend.qtn.reduce((acc, current) => acc + current, 0);
+                    const allQtn :number= dataSend.qtn.reduce((acc, current) => Number(acc) + Number(current), 0);
                     const send = {
                         qtn: dataSend.qtn,
                         items: dataSend.items,
@@ -123,7 +123,7 @@ const CreateOrderForm = ({ isOpenCreate, closeModal }: { isOpenCreate: boolean, 
                         client: dataSend.client,
                         date: dataSend.date,
                         id: id,
-                        allQtn: allQtn
+                        allQtn: Number(allQtn)
                     }
                     return await OutputService.make<OutputService>().store(id, send).then(() => {
                         HandleAddOrRemoveData(send.items, send.qtn, data?.data, "remove")

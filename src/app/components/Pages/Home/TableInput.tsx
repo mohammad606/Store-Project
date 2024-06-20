@@ -64,6 +64,7 @@ const TableInput = ({
                     <th>Id</th>
                     <th>Items</th>
                     <th>Qtn</th>
+                    <th>All Qtn</th>
                     <th>Date</th>
                     <th>Client</th>
                     <th>Noa</th>
@@ -81,6 +82,7 @@ const TableInput = ({
                         <td>{input.qtn.map((qtn: number, index: number) => (
                             <p className={`my-2 ${input.oop == "مرتجع" ? " bg-black/50 rounded-xl text-white" : "bg-sky-400/50 rounded-xl"} text-center p-2`}
                                key={index}>{qtn}</p>))}</td>
+                        <td>{input.allQtn}</td>
                         <td>{input.date}</td>
                         <td>{input.client}</td>
                         <td>{input.noa}</td>

@@ -111,7 +111,7 @@ const AddedItemsForm = ({ isOpenAdd, closeModal }: { isOpenAdd: boolean, closeMo
             if (result.isConfirmed) {
                 return await InputService.make<InputService>().limitToLast(1).then(async (res) => {
                     const id = res[0] ? res[0].id + 1 : 0
-                    const allQtn = dataSend.qtn.reduce((acc, current) => acc + current, 0);
+                    const allQtn :number= dataSend.qtn.reduce((acc, current) => Number(acc) + Number(current), 0);
                     const send = {
                         oop: oop,
                         qtn: dataSend.qtn,
@@ -120,7 +120,7 @@ const AddedItemsForm = ({ isOpenAdd, closeModal }: { isOpenAdd: boolean, closeMo
                         client: dataSend.client,
                         date: dataSend.date,
                         id: id,
-                        allQtn: allQtn
+                        allQtn: Number(allQtn)
                     }
                     return await InputService.make<InputService>().store(id, send).then(() => {
                         HandleAddOrRemoveData(send.items, send.qtn, data?.data, "add")
