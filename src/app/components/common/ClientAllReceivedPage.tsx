@@ -21,6 +21,8 @@ import {useQuery} from "@tanstack/react-query";
 import {StoreService} from "@/services/seviceDirect/StoreService";
 import {useRouter} from "next/navigation";
 import {Input} from "@/services/module/Input";
+import Link from "next/link";
+import LoadingSpin from "@/app/components/common/icons/LoadingSpanIcon";
 
 interface TableComponentProps {
     inputData: Input[];
@@ -148,19 +150,6 @@ const ClientAllReceivedPage = ({ inputData }: TableComponentProps) => {
                         style={{ marginBottom: '10px' }}
                     />
             </div>
-            {/*<div style={{ marginBottom: '10px' }}>*/}
-            {/*    <label className={'label'}>Search :</label>*/}
-            {/*    <input*/}
-            {/*        className={*/}
-
-            {/*            `input input-bordered w-full focus:outline-pom focus:border-pom`*/}
-            {/*        }*/}
-            {/*        value={globalFilter || ''}*/}
-            {/*        onChange={(e) => setGlobalFilter(e.target.value)}*/}
-            {/*        placeholder="Search by Client or NOA..."*/}
-            {/*        style={{ marginBottom: '10px' }}*/}
-            {/*    />*/}
-            {/*</div>*/}
             <div className="w-full overflow-x-auto rounded-xl">
                 <table {...getTableProps()} className="table min-w-[730px]">
                     <thead>
@@ -184,7 +173,7 @@ const ClientAllReceivedPage = ({ inputData }: TableComponentProps) => {
                     ))}
                     </thead>
                     <tbody {...getTableBodyProps()}>
-                    {isMutating?<p>Loading....</p>:page.map((row) => {
+                    {isMutating?<LoadingSpin className={'w-8 h-8'}/>:page.map((row) => {
                         prepareRow(row);
                         return (
                             <tr
@@ -205,8 +194,10 @@ const ClientAllReceivedPage = ({ inputData }: TableComponentProps) => {
                                     </button>
                                 </td>
                                 <td>
-                                    <div className='w-fit p-2  cursor-pointer'>
-                                        <EditIcon className={'h-8 w-8 '}/>
+                                    <div className={'w-12 h-12 rounded-full p-2  cursor-pointer'}>
+                                        <Link href={`/pages/edit-order/${row.original.id}/added`} className=''>
+                                            <EditIcon className={'h-8 w-8 '}/>
+                                        </Link>
                                     </div>
                                 </td>
                             </tr>

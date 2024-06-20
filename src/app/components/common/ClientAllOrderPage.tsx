@@ -21,6 +21,8 @@ import SelectPopOver from "@/app/components/common/ui/InputsFilds/SelectPopOver"
 import {useQuery} from "@tanstack/react-query";
 import {StoreService} from "@/services/seviceDirect/StoreService";
 import {useRouter} from "next/navigation";
+import Link from "next/link";
+import LoadingSpin from "@/app/components/common/icons/LoadingSpanIcon";
 
 interface TableComponentProps {
     outLimitData: Output[];
@@ -174,7 +176,7 @@ const ClientAllOrderPage = ({ outLimitData }: TableComponentProps) => {
                     ))}
                     </thead>
                     <tbody {...getTableBodyProps()}>
-                    {isMutating?<p>Loading....</p>:page.map((row) => {
+                    {isMutating?<LoadingSpin className={'w-8 h-8'}/>:page.map((row) => {
                         prepareRow(row);
                         return (
                             <tr
@@ -195,8 +197,10 @@ const ClientAllOrderPage = ({ outLimitData }: TableComponentProps) => {
                                     </button>
                                 </td>
                                 <td>
-                                    <div className='w-fit p-2  cursor-pointer'>
-                                        <EditIcon className={'h-8 w-8 '}/>
+                                    <div className={'w-12 h-12 rounded-full p-2  cursor-pointer'}>
+                                        <Link href={`/pages/edit-order/${row.original.id}/order`} className=''>
+                                            <EditIcon className={'h-8 w-8 '}/>
+                                        </Link>
                                     </div>
                                 </td>
                             </tr>

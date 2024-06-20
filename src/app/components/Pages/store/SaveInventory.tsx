@@ -16,7 +16,7 @@ const SaveInventory = ({isOpenSave, closeModal}: { isOpenSave: boolean, closeMod
 
         const store = await StoreService.make<StoreService>().ReadDataBase()
         const inventory = await InventoryService.make<InventoryService>().limitToLast(1)
-        const id = inventory[0] ? inventory[0].id +1 : 0
+        const id = inventory ? inventory[0].id +1 : 0
         const dataSend = {
             id:id,
             date: data.date,
@@ -64,7 +64,7 @@ const SaveInventory = ({isOpenSave, closeModal}: { isOpenSave: boolean, closeMod
                                     <Form handleSubmit={handleSubmit}
                                           defaultValues={[]}>
                                         <DatePicker name={'date'} label={'Date'}/>
-                                        <Textarea name={'note'} label={'not :'}/>
+                                        <Textarea name={'note'} label={'not'}/>
                                     </Form>
                                 </PageCard>
                             </Dialog.Panel>

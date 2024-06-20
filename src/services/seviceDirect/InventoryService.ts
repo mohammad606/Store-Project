@@ -1,9 +1,13 @@
 import { BaseService } from "@/services/BaseService";
-import {Input} from "@/services/module/Input";
 import {Inventory} from "@/services/module/Inventory";
+import {ApiResponse} from "@/services/module/Respons";
+import {GET} from "@/services/Http";
 
 export class InventoryService extends BaseService<Inventory[]> {
     getBaseUrl(): string {
-        return `h9dspwpI7ydRKZY6gJyDULiNgBA2/inventory`;
+        return `inventory`;
+    }
+    public async show(id:number): Promise<ApiResponse<Inventory>> {
+        return await GET(`inventory/${id}.json`);
     }
 }

@@ -8,6 +8,8 @@ import {useQuery} from "@tanstack/react-query";
 import {StoreService} from "@/services/seviceDirect/StoreService";
 import Swal from 'sweetalert2'
 import {isArray} from "util";
+import Link from "next/link";
+import LoadingSpin from "@/app/components/common/icons/LoadingSpanIcon";
 
 
 const TableInput = ({
@@ -55,7 +57,7 @@ const TableInput = ({
     }
 
     return (
-        <div className="w-full overflow-x-auto rounded-xl">
+        <div className="w-full overflow-x-auto  rounded-xl">
             <table className="table min-w-[730px]">
                 <thead>
                 <tr>
@@ -70,7 +72,7 @@ const TableInput = ({
                 </tr>
                 </thead>
                 <tbody>
-                {isMutating?<p>Loading....</p>:dataInput?.map((input: Input, index: number) => (
+                {isMutating?<LoadingSpin className={'w-8 h-8'}/>:dataInput?.map((input: Input, index: number) => (
                     <tr key={index} className={`${input.oop == "مرتجع" && !input.delete ? 'badge-warning' : input.delete ?"bg-error":"bg-gray-300"} `}>
                         <td>{input?.id}</td>
                         <td>{input.items.map((item: string, index: number) => (
@@ -89,8 +91,10 @@ const TableInput = ({
                             </button>
                         </td>
                         <td>
-                            <div className='w-fit p-2  cursor-pointer'>
-                                <EditIcon className={'h-8 w-8 '}/>
+                            <div className={'w-12 h-12 rounded-full p-2  cursor-pointer'}>
+                                <Link href={`/pages/edit-order/${input.id}/added`} className=''>
+                                    <EditIcon className={'h-8 w-8 '}/>
+                                </Link>
                             </div>
                         </td>
                     </tr>

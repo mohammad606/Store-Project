@@ -3,6 +3,8 @@
 import PageCard from "@/app/components/common/ui/PageCard";
 import {Inventory} from "@/services/module/Inventory";
 import DeleteIcon from "@/app/components/common/icons/DeleteIcon";
+import Link from "next/link";
+import {isArray} from "util";
 
 const ClientInventoryPage = ({inventory}: { inventory: Inventory[] }) => {
 
@@ -12,7 +14,6 @@ const ClientInventoryPage = ({inventory}: { inventory: Inventory[] }) => {
             <h1 className={'card-title'}>Inventory :</h1>
             <div className="w-full overflow-x-auto rounded-xl">
                 <table className="table min-w-[730px]">
-                    {/* head */}
                     <thead>
                     <tr className={'bg-gray-300'}>
                         <th>id</th>
@@ -23,11 +24,16 @@ const ClientInventoryPage = ({inventory}: { inventory: Inventory[] }) => {
                     </thead>
                     <tbody>
                     {
-                        inventory.map((e: Inventory, index: number) => (
+                        isArray(inventory)?inventory.map((e: Inventory, index: number) => (
                             <tr key={index} className={'bg-gray-300  '}>
                                 <td><p className={'my-2   rounded-xl text-center p-2 '}>{e.id}</p></td>
                                 <td><p
-                                    className={'my-2 bg-sky-400/50 hover:bg-gray-200 cursor-pointer rounded-xl whitespace-nowrap text-center p-2'}>{e.date}</p>
+
+                                    className={'my-2 bg-sky-400/50 hover:bg-gray-200 cursor-pointer rounded-xl whitespace-nowrap text-center p-2'}>
+                                    <Link href={`/pages/show-inventory/${e.id}`}>
+                                        {e.date}
+                                    </Link>
+                                </p>
                                 </td>
                                 <td><p className={'my-2 badge-warning overflow-hidden  rounded-xl whitespace-nowrap text-center p-2'}>{e.note}</p></td>
                                 <td>
@@ -36,7 +42,7 @@ const ClientInventoryPage = ({inventory}: { inventory: Inventory[] }) => {
                                     </button>
                                 </td>
                             </tr>
-                        ))
+                        )):""
                     }
 
                     </tbody>

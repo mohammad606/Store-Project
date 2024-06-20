@@ -8,6 +8,7 @@ export interface InputProps extends HTMLProps<HTMLInputElement> {
     className?: string | undefined;
     name: string;
     label?: string;
+    labelClass?:string
     type: string;
     required?: boolean;
     setWatch?: React.Dispatch<number>;
@@ -17,6 +18,7 @@ export interface InputProps extends HTMLProps<HTMLInputElement> {
 }
 
 const Input: React.FC<InputProps> = ({
+                                         labelClass,
                                          className,
                                          label,
                                          name,
@@ -90,7 +92,7 @@ const Input: React.FC<InputProps> = ({
                 className={`flex ${type == `radio` ? `` : "flex-col"} items-start w-full`}
             >
                 {label ? (
-                    <label className={"label"}>
+                    <label className={`label ${labelClass}`}>
                         {label}
                         {unit ? (
                             <span className="ml-1 ">

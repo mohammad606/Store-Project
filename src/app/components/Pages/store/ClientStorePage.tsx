@@ -12,6 +12,7 @@ import OrderIcon from "@/app/components/common/icons/OrderIcon";
 import Link from "next/link";
 import ProductionProps from "@/app/components/common/icons/ProductionIcon";
 import {setCookieClient} from "@/actions/clientCookies";
+import LoadingSpin from "@/app/components/common/icons/LoadingSpanIcon";
 
 const ClientStorePage = ({store}:{store:Store[]})=>{
     const [isPending, setPending] = useState<boolean>(false);
@@ -61,7 +62,7 @@ const ClientStorePage = ({store}:{store:Store[]})=>{
                     </tr>
                     </thead>
                     <tbody>
-                    {isMutating?<p>Loading....</p>:store.map((e:Store)=>{
+                    {isMutating?<LoadingSpin className={'w-8 h-8'}/>:store.map((e:Store)=>{
                         return(
                             <tr key={e.id} className={` text-center border-b-2 border-white  ${e?.qtn == 0 ? "badge-error":e.qtn < 0 ? " badge-warning" : "bg-gray-300"}`}>
                                 <td className='w-[28.5%] text-start pl-2 '>

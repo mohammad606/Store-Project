@@ -6,6 +6,7 @@ import LoadingSpin from "@/app/components/common/icons/LodingSpan";
 import {ApiResponse, getNestedPropertyValue} from "@/services/module/Respons";
 import XMarkIcon from "@/app/components/common/icons/XMarkIcon";
 import ChevronDown from "@/app/components/common/icons/ChevronDown";
+import {filter} from "minimatch";
 export interface Option {
     label: any;
     value: any;
@@ -18,6 +19,7 @@ export interface SelectInputProps
     > {}
 
 export interface IApiSelectProps<TResponse, TData> {
+    filtarItems?:string[]
     required?: boolean;
     type?:string|undefined
     api: (
@@ -112,6 +114,7 @@ export const isOption = (object: any): object is Option =>
 
 
 function ApiSelect<TResponse, TData>({
+                                         filtarItems=undefined,
                                          api,
                                          getDataArray,
                                          label,
@@ -350,26 +353,48 @@ function ApiSelect<TResponse, TData>({
                         const items = getDataArray
                             ? getDataArray(res) ?? []
                             : (res.data as TData[]);
-                        return items?.map((item, index) => (
-                            <div
-                                key={index}
-                                className={`
+                        return items?.map((item, index) => {
+                            if(filtarItems){
+                               if(!filtarItems.includes(getOption(item).label)){
+                                   return(
+                                       <div
+                                           key={index}
+                                           className={`
                               ${
-                                    include(getOption(item), selected)
-                                        ? `${styles?.selectedDropDownItemClasses ?? "bg-pom border-pom"}`
-                                        : ""
-                                }
+                                               include(getOption(item), selected)
+                                                   ? `${styles?.selectedDropDownItemClasses ?? "bg-pom border-pom"}`
+                                                   : ""
+                                           }
                               ${styles?.dropDownItemClasses ?? "cursor-pointer hover:border-pom hover:bg-pom my-1 p-2 rounded-md w-full text-black"}`}
-                                onClick={(e) => handleChoseItem(e, item)}
-                            >
-                                {getOption(item).label ?? ""}
-                            </div>
-                        ));
+                                           onClick={(e) => handleChoseItem(e, item)}
+                                       >
+                                           {getOption(item).label ?? ""}
+                                       </div>
+                                   )
+                               }
+                            }else {
+                                return(
+                                    <div
+                                        key={index}
+                                        className={`
+                              ${
+                                            include(getOption(item), selected)
+                                                ? `${styles?.selectedDropDownItemClasses ?? "bg-pom border-pom"}`
+                                                : ""
+                                        }
+                              ${styles?.dropDownItemClasses ?? "cursor-pointer hover:border-pom hover:bg-pom my-1 p-2 rounded-md w-full text-black"}`}
+                                        onClick={(e) => handleChoseItem(e, item)}
+                                    >
+                                        {getOption(item).label ?? ""}
+                                    </div>
+                                )
+                            }
+                        });
                     })}
 
                     {isFetching && (
                         <div className="flex justify-center items-center my-2 w-full">
-                            Loading ...
+                            <LoadingSpin className={'w-8 h-8'}/>
                         </div>
                     )}
                 </div>

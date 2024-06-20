@@ -8,6 +8,8 @@ import {useQuery} from "@tanstack/react-query";
 import {StoreService} from "@/services/seviceDirect/StoreService";
 import {useRouter} from "next/navigation";
 import {isArray} from "util";
+import Link from "next/link";
+import LoadingSpin from "@/app/components/common/icons/LoadingSpanIcon";
 
 
 const TableOutput = ({
@@ -74,7 +76,7 @@ const TableOutput = ({
                 </tr>
                 </thead>
                 <tbody>
-                {isMutating?<p>Loading....</p>:dataOut?.map((order: Output, index: number) => (
+                {isMutating?<LoadingSpin className={'w-8 h-8 '}/>:dataOut?.map((order: Output, index: number) => (
                     <tr key={index} className={`${order.delete ? 'bg-error' : 'bg-gray-300'}`}>
                         <td>{order?.id}</td>
                         <td>{order.items.map((item: string, index: number) => (
@@ -95,8 +97,10 @@ const TableOutput = ({
                             </button>
                         </td>
                         <td>
-                            <div className='w-fit p-2  cursor-pointer'>
-                                <EditIcon className={'h-8 w-8 '}/>
+                            <div className={'w-12 h-12 rounded-full p-2  cursor-pointer'}>
+                                <Link href={`/pages/edit-order/${order.id}/order`} className=''>
+                                    <EditIcon className={'h-8 w-8 '}/>
+                                </Link>
                             </div>
                         </td>
                     </tr>
