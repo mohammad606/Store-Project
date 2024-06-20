@@ -11,7 +11,7 @@ export default function page() {
           className="w-full bg-black h-screen flex justify-center items-center"
       >
         <div className="md:w-1/2 max-w-[530px] w-full mx-4">
-          <PageCard className={'bg-[#ffffff0d]'}>
+          <PageCard className={'!bg-[#ffffff0f]'}>
             <h1 className="card-title text-white">Login:</h1>
              <LogInPage />
           </PageCard>
